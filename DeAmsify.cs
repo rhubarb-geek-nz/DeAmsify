@@ -17,18 +17,15 @@ namespace RhubarbGeekNz.DeAmsify
         {
             var field = typeof(PSObject).Assembly.GetType("System.Management.Automation.Language.CachedReflectionInfo").GetField("MemberInvocationLoggingOps_LogMemberInvocation", BindingFlags.Static | BindingFlags.NonPublic);
             MethodInfo method = (MethodInfo)field.GetValue(null);
+            Type[] typesForLogger = method.GetParameters().Select(p => p.ParameterType).ToArray();
+            var logger = new DynamicMethod("LogMemberInvocation", null, typesForLogger, true);
+            logger.GetILGenerator().Emit(OpCodes.Ret);
             var setter = new DynamicMethod("", null, typesForDynamicMethod, true);
             var il = setter.GetILGenerator();
-            Type[] typesForLogger = method.GetParameters().Select(p => p.ParameterType).ToArray();
-            var logger = typeof(ModuleAssemblyInitializer).GetMethod(nameof(LogMemberInvocation), BindingFlags.Static | BindingFlags.NonPublic, null, typesForLogger, null);
             il.Emit(OpCodes.Ldarg_0);
             il.Emit(OpCodes.Stsfld, field);
             il.Emit(OpCodes.Ret);
             setter.Invoke(null, new object[] { logger });
-        }
-
-        internal static void LogMemberInvocation(string a, string b, object[] args)
-        {
         }
     }
 }
