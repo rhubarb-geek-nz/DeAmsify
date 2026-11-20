@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>RhubarbGeekNz.DeAmsify</AssemblyName>
     <Copyright>Copyright © 2026 Roger Brown</Copyright>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <AssemblyTitle>PowerShell DeAmsify</AssemblyTitle>
     <Product>DeAmsify for PowerShell</Product>
     <Company>rhubarb-geek-nz</Company>
